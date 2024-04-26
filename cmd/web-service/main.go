@@ -26,6 +26,7 @@ func main() {
 		fx.Provide(persistence.NewAccountDAO),
 		fx.Provide(service.NewAccountService),
 		asHandler(api.NewAccountHandler),
+		asHandler(api.NewHealthCheck),
 		fx.Provide(fx.Annotate(
 			app.NewRESTApp,
 			fx.ParamTags(`group:"handlers"`),
