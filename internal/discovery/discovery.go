@@ -56,7 +56,7 @@ func (c consulServiceDiscovery) Register() error {
 		host = hostname
 	}
 	id := fmt.Sprintf("%s::%s:%d", c.service.name, host, c.service.port)
-	println(c.service.healthcheck)
+
 	service := &api.AgentServiceRegistration{
 		ID:      id,
 		Name:    c.service.name,
