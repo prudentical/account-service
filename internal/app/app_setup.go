@@ -1,7 +1,7 @@
 package app
 
 import (
-	"account-service/configuration"
+	"account-service/internal/configuration"
 	"account-service/internal/discovery"
 	"context"
 	"fmt"

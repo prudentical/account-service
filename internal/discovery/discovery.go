@@ -1,7 +1,7 @@
 package discovery
 
 import (
-	"account-service/configuration"
+	"account-service/internal/configuration"
 	"fmt"
 	"os"
 
