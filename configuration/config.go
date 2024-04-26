@@ -23,11 +23,14 @@ const (
 
 type Config struct {
 	App struct {
+		Name  string
 		Env   string
 		Debug bool
 	}
 	Server struct {
-		Port string
+		Host        string
+		Healthcheck string
+		Port        int
 	}
 	Database struct {
 		Name       string
@@ -40,6 +43,12 @@ type Config struct {
 		Connection struct {
 			Idle int
 			Open int
+		}
+	}
+	Discovery struct {
+		Server struct {
+			Host string
+			Port int
 		}
 	}
 	Logging struct {

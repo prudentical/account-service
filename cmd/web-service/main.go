@@ -8,6 +8,7 @@ import (
 	"account-service/database"
 	"account-service/internal/api"
 	"account-service/internal/app"
+	"account-service/internal/discovery"
 	"account-service/internal/persistence"
 	"account-service/internal/service"
 	"account-service/internal/util"
@@ -20,6 +21,7 @@ func main() {
 		fx.Provide(app.NewFxLogger),
 		fx.Provide(app.ProvideEcho),
 		fx.Provide(app.NewAppSetupManager),
+		fx.Provide(discovery.NewServiceDiscovery),
 		fx.Provide(util.NewValidator),
 		fx.Provide(api.NewHTTPErrorHandler),
 		fx.Provide(database.NewDatabaseConnection),

@@ -2,6 +2,7 @@ package app
 
 import (
 	"account-service/configuration"
+	"account-service/internal/discovery"
 	"context"
 	"fmt"
 	"log/slog"
@@ -15,11 +16,12 @@ type AppSetupManager interface {
 }
 
 type appSetupManagerImpl struct {
-	app RESTApp
+	app       RESTApp
+	discovery discovery.ServiceDiscovery
 }
 
-func NewAppSetupManager(app RESTApp) AppSetupManager {
-	return appSetupManagerImpl{app}
+func NewAppSetupManager(app RESTApp, discovery discovery.ServiceDiscovery) AppSetupManager {
+	return appSetupManagerImpl{app, discovery}
 }
 
 func (a appSetupManagerImpl) Setup() error {
@@ -27,6 +29,12 @@ func (a appSetupManagerImpl) Setup() error {
 	if err != nil {
 		return err
 	}
+
+	err = a.discovery.Register()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
