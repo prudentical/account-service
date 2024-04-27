@@ -23,9 +23,9 @@ func (h healthCheckImpl) HandleRoutes(e *echo.Echo) {
 
 func (healthCheckImpl) Check(c echo.Context) error {
 	status := struct {
-		Status string
+		Status string `json:"status"`
 	}{
-		Status: "OK",
+		Status: "UP",
 	}
 	return c.JSON(http.StatusOK, status)
 }
