@@ -1,6 +1,8 @@
 app:
+  name: account-service
   env: dev
 server:
+  host: localhost
   port: 8001
 database:
   name: "db"
@@ -9,7 +11,7 @@ database:
   ssl: "disable"
   user: "user"
   password: "password"
-  timezone: "Asia/Tehran"
+  timezone: "UTC"
   connection:
     idle: 10
     open: 100
@@ -24,5 +26,9 @@ messaging:
       name: "order-exchange"
       type: "direct"
     queue: "orders"
+discovery:
+  server:
+    host: localhost 
+    port: 8500
 logging:
   level: "debug"

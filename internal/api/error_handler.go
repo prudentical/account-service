@@ -1,6 +1,7 @@
 package api
 
 import (
+	"account-service/internal/service"
 	"log/slog"
 	"net/http"
 )
@@ -18,7 +19,15 @@ func NewHTTPErrorHandler(logger *slog.Logger) HTTPErrorHandler {
 }
 
 func (h echoErrorHandlerImpl) Handle(err error) (int, interface{}) {
-	return http.StatusBadRequest, struct {
+	var code int
+	switch err.(type) {
+	case service.NotFoundError:
+		code = http.StatusNotFound
+	default:
+		code = http.StatusInternalServerError
+	}
+
+	return code, struct {
 		Message string
 	}{
 		Message: err.Error(),
