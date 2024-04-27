@@ -3,7 +3,6 @@ app:
   env: dev
 server:
   host: localhost
-  healthcheck: localhost
   port: 8001
 database:
   name: "db"

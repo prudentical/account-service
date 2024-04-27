@@ -3,16 +3,16 @@ package discovery
 import (
 	"account-service/internal/configuration"
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/hashicorp/consul/api"
 )
 
 type service struct {
-	name        string
-	host        string
-	healthcheck string
-	port        int
+	name string
+	host string
+	port int
 }
 
 type ServiceDiscovery interface {
@@ -21,11 +21,12 @@ type ServiceDiscovery interface {
 }
 
 type consulServiceDiscovery struct {
+	logger  *slog.Logger
 	service service
 	client  *api.Client
 }
 
-func NewServiceDiscovery(config configuration.Config) ServiceDiscovery {
+func NewServiceDiscovery(logger *slog.Logger, config configuration.Config) ServiceDiscovery {
 	consulConfig := api.DefaultConfig()
 	address := fmt.Sprintf("%s:%d", config.Discovery.Server.Host, config.Discovery.Server.Port)
 	consulConfig.Address = address
@@ -36,17 +37,18 @@ func NewServiceDiscovery(config configuration.Config) ServiceDiscovery {
 		panic(err)
 	}
 	return consulServiceDiscovery{
+		logger: logger,
 		service: service{
-			name:        config.App.Name,
-			host:        config.Server.Host,
-			healthcheck: config.Server.Healthcheck,
-			port:        config.Server.Port,
+			name: config.App.Name,
+			host: config.Server.Host,
+			port: config.Server.Port,
 		},
 		client: client,
 	}
 }
 
 func (c consulServiceDiscovery) Register() error {
+	c.logger.Debug("Registering to service discovery", "host", c.service.host, "port", c.service.port)
 	host := c.service.host
 	if host == "" {
 		hostname, err := os.Hostname()
@@ -63,9 +65,9 @@ func (c consulServiceDiscovery) Register() error {
 		Address: host,
 		Port:    c.service.port,
 		Check: &api.AgentServiceCheck{
-			HTTP:     fmt.Sprintf("http://%s:%v/health", c.service.healthcheck, c.service.port),
+			HTTP:     fmt.Sprintf("http://%s:%v/health", c.service.host, c.service.port),
 			Interval: "10s",
-			Timeout:  "3s",
+			Timeout:  "2s",
 		},
 	}
 	return c.client.Agent().ServiceRegister(service)

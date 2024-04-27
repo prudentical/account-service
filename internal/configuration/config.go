@@ -28,9 +28,8 @@ type Config struct {
 		Debug bool
 	}
 	Server struct {
-		Host        string
-		Healthcheck string
-		Port        int
+		Host string
+		Port int
 	}
 	Database struct {
 		Name       string
