@@ -6,14 +6,17 @@ ENV GOPROXY https://goproxy.io
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY . .
+COPY cmd/ cmd/
+COPY internal/ internal/
+COPY config.yml .
+
 RUN CGO_ENABLED=0 GOOS=linux go build -o account-service ./cmd/web-service/
 
 
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /app
 
-COPY --from=build /app/database/migrations ./database/migrations
+COPY --from=build /app/internal/database/migrations ./internal/database/migrations
 COPY --from=build /app/config.yml .
 COPY --from=build /app/account-service .
 
