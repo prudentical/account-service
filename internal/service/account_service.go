@@ -47,12 +47,13 @@ func (s AccountServiceImpl) Create(userId int, account model.Account) (model.Acc
 }
 
 func (s AccountServiceImpl) Update(userId int, id int, account model.Account) (model.Account, error) {
-	_, err := s.GetById(userId, id)
+	found, err := s.GetById(userId, id)
 	if err != nil {
 		return model.Account{}, err
 	}
 	account.ID = id
 	account.UserId = userId
+	account.CreatedAt = found.CreatedAt
 	return s.dao.Update(account)
 }
 
