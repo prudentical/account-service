@@ -1,11 +1,10 @@
-package main
+package app
 
 import (
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
 
 	"account-service/internal/api"
-	"account-service/internal/app"
 	"account-service/internal/configuration"
 	"account-service/internal/database"
 	"account-service/internal/discovery"
@@ -14,13 +13,24 @@ import (
 	"account-service/internal/util"
 )
 
-func main() {
+type Application interface {
+	Run()
+}
+
+func NewApplication() Application {
+	return FxContainer{}
+}
+
+type FxContainer struct {
+}
+
+func (FxContainer) Run() {
 	fx.New(
 		fx.Provide(configuration.NewConfig),
-		fx.Provide(app.NewLogger),
-		fx.Provide(app.NewFxLogger),
-		fx.Provide(app.ProvideEcho),
-		fx.Provide(app.NewAppSetupManager),
+		fx.Provide(NewLogger),
+		fx.Provide(NewFxLogger),
+		fx.Provide(ProvideEcho),
+		fx.Provide(NewAppSetupManager),
 		fx.Provide(discovery.NewServiceDiscovery),
 		fx.Provide(util.NewValidator),
 		fx.Provide(api.NewHTTPErrorHandler),
@@ -30,13 +40,13 @@ func main() {
 		asHandler(api.NewAccountHandler),
 		asHandler(api.NewHealthCheck),
 		fx.Provide(fx.Annotate(
-			app.NewRESTApp,
+			NewRESTApp,
 			fx.ParamTags(`group:"handlers"`),
 		)),
-		fx.WithLogger(func(log app.FxLogger) fxevent.Logger {
+		fx.WithLogger(func(log FxLogger) fxevent.Logger {
 			return &log
 		}),
-		fx.Invoke(app.ManageLifeCycle),
+		fx.Invoke(ManageLifeCycle),
 	).Run()
 }
 
