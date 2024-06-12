@@ -7,11 +7,11 @@ import (
 )
 
 type AccountService interface {
-	GetById(userId int, id int) (model.Account, error)
-	GetAll(userId int, page int, size int) (persistence.Page[model.Account], error)
-	Create(userId int, account model.Account) (model.Account, error)
-	Update(userId int, id int, account model.Account) (model.Account, error)
-	Delete(userId int, id int) error
+	GetById(userId int64, id int64) (model.Account, error)
+	GetAll(userId int64, page int, size int) (persistence.Page[model.Account], error)
+	Create(userId int64, account model.Account) (model.Account, error)
+	Update(userId int64, id int64, account model.Account) (model.Account, error)
+	Delete(userId int64, id int64) error
 }
 
 type AccountServiceImpl struct {
@@ -22,7 +22,7 @@ func NewAccountService(dao persistence.AccountDAO) AccountService {
 	return AccountServiceImpl{dao}
 }
 
-func (s AccountServiceImpl) GetById(userId int, id int) (model.Account, error) {
+func (s AccountServiceImpl) GetById(userId int64, id int64) (model.Account, error) {
 	account, err := s.dao.Get(id)
 	if err != nil {
 		if errors.Is(err, persistence.RecordNotFoundError{}) {
@@ -36,17 +36,17 @@ func (s AccountServiceImpl) GetById(userId int, id int) (model.Account, error) {
 	return account, nil
 }
 
-func (s AccountServiceImpl) GetAll(userId int, page int, size int) (persistence.Page[model.Account], error) {
+func (s AccountServiceImpl) GetAll(userId int64, page int, size int) (persistence.Page[model.Account], error) {
 	return s.dao.GetByUserId(userId, page, size)
 }
 
-func (s AccountServiceImpl) Create(userId int, account model.Account) (model.Account, error) {
+func (s AccountServiceImpl) Create(userId int64, account model.Account) (model.Account, error) {
 	account.ID = 0
 	account.UserId = userId
 	return s.dao.Create(account)
 }
 
-func (s AccountServiceImpl) Update(userId int, id int, account model.Account) (model.Account, error) {
+func (s AccountServiceImpl) Update(userId int64, id int64, account model.Account) (model.Account, error) {
 	found, err := s.GetById(userId, id)
 	if err != nil {
 		return model.Account{}, err
@@ -57,7 +57,7 @@ func (s AccountServiceImpl) Update(userId int, id int, account model.Account) (m
 	return s.dao.Update(account)
 }
 
-func (s AccountServiceImpl) Delete(userId int, id int) error {
+func (s AccountServiceImpl) Delete(userId int64, id int64) error {
 	_, err := s.GetById(userId, id)
 	if err != nil {
 		return err
