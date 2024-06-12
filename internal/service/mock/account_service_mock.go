@@ -41,7 +41,7 @@ func (m *MockAccountService) EXPECT() *MockAccountServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockAccountService) Create(userId int, account model.Account) (model.Account, error) {
+func (m *MockAccountService) Create(userId int64, account model.Account) (model.Account, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", userId, account)
 	ret0, _ := ret[0].(model.Account)
@@ -56,7 +56,7 @@ func (mr *MockAccountServiceMockRecorder) Create(userId, account any) *gomock.Ca
 }
 
 // Delete mocks base method.
-func (m *MockAccountService) Delete(userId, id int) error {
+func (m *MockAccountService) Delete(userId, id int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", userId, id)
 	ret0, _ := ret[0].(error)
@@ -70,7 +70,7 @@ func (mr *MockAccountServiceMockRecorder) Delete(userId, id any) *gomock.Call {
 }
 
 // GetAll mocks base method.
-func (m *MockAccountService) GetAll(userId, page, size int) (persistence.Page[model.Account], error) {
+func (m *MockAccountService) GetAll(userId int64, page, size int) (persistence.Page[model.Account], error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll", userId, page, size)
 	ret0, _ := ret[0].(persistence.Page[model.Account])
@@ -85,7 +85,7 @@ func (mr *MockAccountServiceMockRecorder) GetAll(userId, page, size any) *gomock
 }
 
 // GetById mocks base method.
-func (m *MockAccountService) GetById(userId, id int) (model.Account, error) {
+func (m *MockAccountService) GetById(userId, id int64) (model.Account, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetById", userId, id)
 	ret0, _ := ret[0].(model.Account)
@@ -100,7 +100,7 @@ func (mr *MockAccountServiceMockRecorder) GetById(userId, id any) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockAccountService) Update(userId, id int, account model.Account) (model.Account, error) {
+func (m *MockAccountService) Update(userId, id int64, account model.Account) (model.Account, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", userId, id, account)
 	ret0, _ := ret[0].(model.Account)

@@ -56,7 +56,7 @@ func (mr *MockAccountDAOMockRecorder) Create(account any) *gomock.Call {
 }
 
 // Delete mocks base method.
-func (m *MockAccountDAO) Delete(id int) error {
+func (m *MockAccountDAO) Delete(id int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", id)
 	ret0, _ := ret[0].(error)
@@ -70,7 +70,7 @@ func (mr *MockAccountDAOMockRecorder) Delete(id any) *gomock.Call {
 }
 
 // Get mocks base method.
-func (m *MockAccountDAO) Get(id int) (model.Account, error) {
+func (m *MockAccountDAO) Get(id int64) (model.Account, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", id)
 	ret0, _ := ret[0].(model.Account)
@@ -85,7 +85,7 @@ func (mr *MockAccountDAOMockRecorder) Get(id any) *gomock.Call {
 }
 
 // GetByUserId mocks base method.
-func (m *MockAccountDAO) GetByUserId(userId, page, size int) (persistence.Page[model.Account], error) {
+func (m *MockAccountDAO) GetByUserId(userId int64, page, size int) (persistence.Page[model.Account], error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByUserId", userId, page, size)
 	ret0, _ := ret[0].(persistence.Page[model.Account])
