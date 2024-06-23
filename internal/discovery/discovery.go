@@ -4,6 +4,7 @@ import (
 	"account-service/internal/configuration"
 	"fmt"
 	"log/slog"
+	"math/rand"
 	"os"
 
 	"github.com/hashicorp/consul/api"
@@ -74,10 +75,14 @@ func (c consulServiceDiscovery) Register() error {
 }
 
 func (c consulServiceDiscovery) Discover(name string) (string, error) {
-	services, _, err := c.client.Catalog().Service(name, "", nil)
+	services, _, err := c.client.Health().Service(name, "", true, nil)
 	if err != nil {
 		return "", err
 	}
-	result := fmt.Sprintf("%s:%d", services[0].ServiceAddress, services[0].ServicePort)
+	if len(services) == 0 {
+		return "", NoInstanceAvailable{name}
+	}
+	instance := services[rand.Intn(len(services))]
+	result := fmt.Sprintf("%s:%d", instance.Node.Address, instance.Service.Port)
 	return result, nil
 }

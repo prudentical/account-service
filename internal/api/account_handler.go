@@ -37,13 +37,13 @@ func (h AccountHandlerImpl) HandleRoutes(e *echo.Echo) {
 
 func (h AccountHandlerImpl) GetById(c echo.Context) error {
 	userIdStr := c.Param("user_id")
-	userId, err := strconv.Atoi(userIdStr)
+	userId, err := strconv.ParseInt(userIdStr, 10, 64)
 	if err != nil {
 		return InvalidIDError{TypeName: "User", Id: userIdStr}
 	}
 
 	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		return InvalidIDError{Type: model.Account{}, Id: idStr}
 	}
@@ -57,7 +57,7 @@ func (h AccountHandlerImpl) GetById(c echo.Context) error {
 
 func (h AccountHandlerImpl) GetAll(c echo.Context) error {
 	userIdStr := c.Param("user_id")
-	userId, err := strconv.Atoi(userIdStr)
+	userId, err := strconv.ParseInt(userIdStr, 10, 64)
 	if err != nil {
 		return InvalidIDError{TypeName: "User", Id: userIdStr}
 	}
@@ -83,7 +83,7 @@ func (h AccountHandlerImpl) GetAll(c echo.Context) error {
 
 func (h AccountHandlerImpl) Create(c echo.Context) error {
 	userIdStr := c.Param("user_id")
-	userId, err := strconv.Atoi(userIdStr)
+	userId, err := strconv.ParseInt(userIdStr, 10, 64)
 	if err != nil {
 		return InvalidIDError{TypeName: "User", Id: userIdStr}
 	}
@@ -109,13 +109,13 @@ func (h AccountHandlerImpl) Create(c echo.Context) error {
 
 func (h AccountHandlerImpl) Update(c echo.Context) error {
 	userIdStr := c.Param("user_id")
-	userId, err := strconv.Atoi(userIdStr)
+	userId, err := strconv.ParseInt(userIdStr, 10, 64)
 	if err != nil {
 		return InvalidIDError{TypeName: "User", Id: userIdStr}
 	}
 
 	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		return InvalidIDError{Type: model.Account{}, Id: idStr}
 	}
@@ -137,13 +137,13 @@ func (h AccountHandlerImpl) Update(c echo.Context) error {
 
 func (h AccountHandlerImpl) Delete(c echo.Context) error {
 	userIdStr := c.Param("user_id")
-	userId, err := strconv.Atoi(userIdStr)
+	userId, err := strconv.ParseInt(userIdStr, 10, 64)
 	if err != nil {
 		return InvalidIDError{TypeName: "User", Id: userIdStr}
 	}
 
 	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		return InvalidIDError{Type: model.Account{}, Id: idStr}
 	}

@@ -10,9 +10,9 @@ import (
 type AccountDAO interface {
 	Create(account model.Account) (model.Account, error)
 	Update(account model.Account) (model.Account, error)
-	Get(id int) (model.Account, error)
-	Delete(id int) error
-	GetByUserId(userId int, page int, size int) (Page[model.Account], error)
+	Get(id int64) (model.Account, error)
+	Delete(id int64) error
+	GetByUserId(userId int64, page int, size int) (Page[model.Account], error)
 }
 
 type AccountDAOImpl struct {
@@ -23,7 +23,7 @@ func NewAccountDAO(conn *gorm.DB) AccountDAO {
 	return AccountDAOImpl{conn}
 }
 
-func (dao AccountDAOImpl) Get(id int) (model.Account, error) {
+func (dao AccountDAOImpl) Get(id int64) (model.Account, error) {
 	var account model.Account
 	tx := dao.db.First(&account, id)
 	if tx.Error != nil {
@@ -51,7 +51,7 @@ func (dao AccountDAOImpl) Update(account model.Account) (model.Account, error) {
 	return account, nil
 }
 
-func (dao AccountDAOImpl) Delete(id int) error {
+func (dao AccountDAOImpl) Delete(id int64) error {
 	tx := dao.db.Delete(&model.Account{}, id)
 	if tx.Error != nil {
 		return tx.Error
@@ -59,7 +59,7 @@ func (dao AccountDAOImpl) Delete(id int) error {
 	return nil
 }
 
-func (dao AccountDAOImpl) GetByUserId(userId int, page int, size int) (Page[model.Account], error) {
+func (dao AccountDAOImpl) GetByUserId(userId int64, page int, size int) (Page[model.Account], error) {
 	var accounts []model.Account = make([]model.Account, 1)
 	tx := dao.db.Scopes(Paginate(page, size)).Find(&accounts, "user_id = ?", userId)
 	if tx.Error != nil {

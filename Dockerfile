@@ -10,7 +10,7 @@ COPY cmd/ cmd/
 COPY internal/ internal/
 COPY config.yml .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o account-service ./cmd/web-service/
+RUN CGO_ENABLED=0 GOOS=linux go build -o account-service ./cmd/application/
 
 
 FROM gcr.io/distroless/static:nonroot
