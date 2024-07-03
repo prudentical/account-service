@@ -13,7 +13,7 @@ COPY config.yml .
 RUN CGO_ENABLED=0 GOOS=linux go build -o account-service ./cmd/application/
 
 
-FROM gcr.io/distroless/static:nonroot
+FROM gcr.io/distroless/static-debian12:nonroot
 WORKDIR /app
 
 COPY --from=build /app/internal/database/migrations ./internal/database/migrations
